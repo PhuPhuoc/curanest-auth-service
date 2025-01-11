@@ -1,0 +1,25 @@
+info:
+  contact: {}
+  title: Authentication Service
+  version: "1.0"
+paths:
+  /ping:
+    get:
+      consumes:
+      - application/json
+      description: ping server
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: message success
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad request error
+          schema: {}
+      summary: ping server
+      tags:
+      - ping
+swagger: "2.0"

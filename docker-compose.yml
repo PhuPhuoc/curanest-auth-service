@@ -1,0 +1,19 @@
+version: "3.8"
+services:
+  api:
+    image: pardes29/auth_service:v1
+    container_name: auth_service
+    networks:
+      - traefik
+    environment:
+      - ENV_DEV=vps
+    labels:
+      - "traefik.http.routers.auth_service.entrypoints=websecure"
+      - "traefik.http.routers.auth_service.tls=true"
+      - "traefik.http.routers.auth_service.rule=Host(`api.curanest.com.vn`) && PathPrefix(`/auth`)"
+      - "traefik.http.routers.auth_service.middlewares=strip-auth-prefix"
+      - "traefik.http.middlewares.strip-auth-prefix.stripprefix.prefixes=/auth"
+
+networks:
+  traefik:
+    external: true
