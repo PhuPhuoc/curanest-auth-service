@@ -13,20 +13,14 @@ import (
 )
 
 type server struct {
-	address string
-	db      *sqlx.DB
+	port string
+	db   *sqlx.DB
 }
 
-func InitServerTemp(addr string) *server {
+func InitServer(port string, db *sqlx.DB) *server {
 	return &server{
-		address: addr,
-	}
-}
-
-func InitServer(addr string, db *sqlx.DB) *server {
-	return &server{
-		address: addr,
-		db:      db,
+		port: port,
+		db:   db,
 	}
 }
 
@@ -58,6 +52,6 @@ func (sv *server) RunApp() error {
 	/*
 		! start server here
 	*/
-	log.Println("server start listening at port: ", sv.address)
-	return router.Run(sv.address)
+	log.Println("server start listening at port: ", sv.port)
+	return router.Run(sv.port)
 }
