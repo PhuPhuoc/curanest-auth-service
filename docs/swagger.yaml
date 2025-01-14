@@ -3,6 +3,25 @@ info:
   title: Authentication Service
   version: "1.0"
 paths:
+  /api/v1/roles:
+    get:
+      consumes:
+      - application/json
+      description: get appointment (card)
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: data
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad request error
+          schema: {}
+      summary: get appointment (card)
+      tags:
+      - roles
   /ping:
     get:
       consumes:
