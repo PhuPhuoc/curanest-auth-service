@@ -13,11 +13,10 @@ func ResponseSuccess(c *gin.Context, data interface{}) {
 	})
 }
 
-func ResponseCreated(c *gin.Context, data interface{}) {
+func ResponseCreated(c *gin.Context) {
 	c.JSON(http.StatusCreated, gin.H{
 		"success": true,
 		"message": "Created successfully",
-		"data":    data,
 	})
 }
 

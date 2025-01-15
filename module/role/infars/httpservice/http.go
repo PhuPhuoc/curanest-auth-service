@@ -6,7 +6,7 @@ import (
 )
 
 type roleHttpService struct {
-	// cmd   categorycommands.Commands
+	// cmd   rolecommands.Commands
 	query rolequeries.Queries
 }
 

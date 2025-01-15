@@ -17,7 +17,7 @@ const docTemplate = `{
     "paths": {
         "/api/v1/roles": {
             "get": {
-                "description": "get appointment (card)",
+                "description": "get roles",
                 "consumes": [
                     "application/json"
                 ],
@@ -27,7 +27,46 @@ const docTemplate = `{
                 "tags": [
                     "roles"
                 ],
-                "summary": "get appointment (card)",
+                "summary": "get roles",
+                "responses": {
+                    "200": {
+                        "description": "data",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request error",
+                        "schema": {}
+                    }
+                }
+            }
+        },
+        "/internal/rpc/accounts": {
+            "post": {
+                "description": "create account",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Account - RPC"
+                ],
+                "summary": "create account",
+                "parameters": [
+                    {
+                        "description": "account creation data",
+                        "name": "form",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/accountcommands.CreateAccountCmdDTO"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "data",
@@ -68,6 +107,28 @@ const docTemplate = `{
                         "description": "Bad request error",
                         "schema": {}
                     }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "accountcommands.CreateAccountCmdDTO": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "full-name": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "phone-number": {
+                    "type": "string"
+                },
+                "role-name": {
+                    "type": "string"
                 }
             }
         }

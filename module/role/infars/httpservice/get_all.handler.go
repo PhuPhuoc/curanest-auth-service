@@ -6,8 +6,8 @@ import (
 )
 
 // @BasePath		/api/v1
-// @Summary		get appointment (card)
-// @Description	get appointment (card)
+// @Summary		get roles
+// @Description	get roles
 // @Tags			roles
 // @Accept			json
 // @Produce		json

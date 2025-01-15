@@ -1,3 +1,17 @@
+definitions:
+  accountcommands.CreateAccountCmdDTO:
+    properties:
+      email:
+        type: string
+      full-name:
+        type: string
+      password:
+        type: string
+      phone-number:
+        type: string
+      role-name:
+        type: string
+    type: object
 info:
   contact: {}
   title: Authentication Service
@@ -7,7 +21,7 @@ paths:
     get:
       consumes:
       - application/json
-      description: get appointment (card)
+      description: get roles
       produces:
       - application/json
       responses:
@@ -19,9 +33,35 @@ paths:
         "400":
           description: Bad request error
           schema: {}
-      summary: get appointment (card)
+      summary: get roles
       tags:
       - roles
+  /internal/rpc/accounts:
+    post:
+      consumes:
+      - application/json
+      description: create account
+      parameters:
+      - description: account creation data
+        in: body
+        name: form
+        required: true
+        schema:
+          $ref: '#/definitions/accountcommands.CreateAccountCmdDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: data
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad request error
+          schema: {}
+      summary: create account
+      tags:
+      - Account - RPC
   /ping:
     get:
       consumes:
