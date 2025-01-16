@@ -3,6 +3,7 @@ package api
 import (
 	"log"
 	"net/http"
+	"os"
 
 	"github.com/PhuPhuoc/curanest-auth-service/builder"
 	"github.com/PhuPhuoc/curanest-auth-service/common"
@@ -16,6 +17,7 @@ import (
 	rolequeries "github.com/PhuPhuoc/curanest-auth-service/module/role/usecase/queries"
 	"github.com/gin-gonic/gin"
 	"github.com/jmoiron/sqlx"
+	"github.com/joho/godotenv"
 	swaggerfiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
 )
@@ -32,6 +34,11 @@ func InitServer(port string, db *sqlx.DB) *server {
 	}
 }
 
+const (
+	env_local = "local"
+	env_vps   = "vps"
+)
+
 // @Summary		ping server
 // @Description	ping server
 // @Tags			ping
@@ -41,8 +48,22 @@ func InitServer(port string, db *sqlx.DB) *server {
 // @Failure		400	{object}	error			"Bad request error"
 // @Router			/ping [get]
 func (sv *server) RunApp() error {
-	docs.SwaggerInfo.BasePath = "/"
 	// gin.SetMode(gin.ReleaseMode)
+	err := godotenv.Load()
+	if err != nil {
+		log.Println("(dev) Error loading .env file")
+	}
+	envDevlopment := os.Getenv("ENV_DEV")
+
+	if envDevlopment == env_local {
+		gin.SetMode(gin.ReleaseMode)
+		docs.SwaggerInfo.BasePath = "/"
+	}
+
+	if envDevlopment == env_vps {
+		gin.SetMode(gin.ReleaseMode)
+		docs.SwaggerInfo.BasePath = "/auth"
+	}
 
 	router := gin.New()
 	router.Use(
