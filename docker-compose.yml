@@ -7,6 +7,11 @@ services:
       - traefik
     environment:
       - ENV_DEV=vps
+      - DB_HOST=103.162.14.143
+      - DB_PORT=3306
+      - DB_USER=curanestdev
+      - DB_PASSWORD=curanestdev
+      - DB_NAME=auth_db
     labels:
       - "traefik.http.routers.auth_service.entrypoints=websecure"
       - "traefik.http.routers.auth_service.tls=true"

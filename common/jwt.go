@@ -8,17 +8,26 @@ import (
 	"github.com/golang-jwt/jwt/v5"
 )
 
+const (
+	defaultExpireTokenInSeconds   = 60 * 60 * 24 * 7  // 7d
+	defaultExpireRefreshInSeconds = 60 * 60 * 24 * 14 // 14d
+)
+
 type JWTx struct {
 	secret               string
 	expireTokenInSeconds int
+	// expireRefreshInSeconds int
 }
 
 func NewJWTx(secret string, expireTokenInSeconds int) *JWTx {
 	return &JWTx{
 		secret:               secret,
 		expireTokenInSeconds: expireTokenInSeconds,
+		// expireRefreshInSeconds: expireRefreshInSeconds,
 	}
 }
+
+func (j *JWTx) TokenExpireInSeconds() int { return j.expireTokenInSeconds }
 
 func (j *JWTx) IssueToken(ctx context.Context, id, sub, role string) (string, error) {
 	now := time.Now().UTC()

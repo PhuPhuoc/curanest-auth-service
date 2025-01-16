@@ -10,6 +10,12 @@ import (
 
 type accountBuilder struct {
 	db *sqlx.DB
+	tp accountqueries.TokenProvider
+}
+
+func (s accountBuilder) AddTokenProvider(tp accountqueries.TokenProvider) accountBuilder {
+	s.tp = tp
+	return s
 }
 
 func NewAccountBuilder(db *sqlx.DB) accountBuilder {
@@ -24,6 +30,14 @@ func (s accountBuilder) BuildAccountQueryRepo() accountqueries.AccountQueryRepo 
 	return accountrepository.NewAccountRepo(s.db)
 }
 
-func (s accountBuilder) BuildRoleFetcherRepo() accountcommands.RoleFetcher {
+func (s accountBuilder) BuildRoleFetcherRepoCmd() accountcommands.RoleFetcher {
 	return rolerepository.NewRoleRepo(s.db)
+}
+
+func (s accountBuilder) BuildRoleFetcherRepoQuery() accountqueries.RoleFetcher {
+	return rolerepository.NewRoleRepo(s.db)
+}
+
+func (s accountBuilder) BuilderTokenProvider() accountqueries.TokenProvider {
+	return s.tp
 }

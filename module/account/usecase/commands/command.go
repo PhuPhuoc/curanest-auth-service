@@ -13,14 +13,14 @@ type Commands struct {
 
 type Builder interface {
 	BuildAccountCmdRepo() AccountCommandRepo
-	BuildRoleFetcherRepo() RoleFetcher
+	BuildRoleFetcherRepoCmd() RoleFetcher
 }
 
 func NewAccountCmdWithBuilder(b Builder) Commands {
 	return Commands{
 		CreateAccount: NewCreateAccountHandler(
 			b.BuildAccountCmdRepo(),
-			b.BuildRoleFetcherRepo(),
+			b.BuildRoleFetcherRepoCmd(),
 		),
 	}
 }

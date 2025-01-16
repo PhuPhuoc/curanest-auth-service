@@ -12,11 +12,44 @@ definitions:
       role-name:
         type: string
     type: object
+  accountqueries.LoginByPhoneRequestDTO:
+    properties:
+      password:
+        type: string
+      phone-number:
+        type: string
+    type: object
 info:
   contact: {}
   title: Authentication Service
   version: "1.0"
 paths:
+  /api/v1/accounts/login:
+    post:
+      consumes:
+      - application/json
+      description: login by phone number
+      parameters:
+      - description: account creation data
+        in: body
+        name: form
+        required: true
+        schema:
+          $ref: '#/definitions/accountqueries.LoginByPhoneRequestDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: data
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad request error
+          schema: {}
+      summary: login by phone number
+      tags:
+      - Account
   /api/v1/roles:
     get:
       consumes:
