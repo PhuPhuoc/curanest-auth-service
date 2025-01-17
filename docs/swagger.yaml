@@ -49,7 +49,7 @@ paths:
           schema: {}
       summary: login by phone number
       tags:
-      - Account
+      - account
   /api/v1/roles:
     get:
       consumes:
@@ -94,7 +94,7 @@ paths:
           schema: {}
       summary: create account
       tags:
-      - Account - RPC
+      - 'rpc: account'
   /ping:
     get:
       consumes:

@@ -3,10 +3,10 @@ package api
 import (
 	"log"
 	"net/http"
-	"os"
 
 	"github.com/PhuPhuoc/curanest-auth-service/builder"
 	"github.com/PhuPhuoc/curanest-auth-service/common"
+	"github.com/PhuPhuoc/curanest-auth-service/config"
 	"github.com/PhuPhuoc/curanest-auth-service/docs"
 	"github.com/PhuPhuoc/curanest-auth-service/middleware"
 	accounthttpservice "github.com/PhuPhuoc/curanest-auth-service/module/account/infars/httpservice"
@@ -17,7 +17,6 @@ import (
 	rolequeries "github.com/PhuPhuoc/curanest-auth-service/module/role/usecase/queries"
 	"github.com/gin-gonic/gin"
 	"github.com/jmoiron/sqlx"
-	"github.com/joho/godotenv"
 	swaggerfiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
 )
@@ -49,12 +48,7 @@ const (
 // @Router			/ping [get]
 func (sv *server) RunApp() error {
 	// gin.SetMode(gin.ReleaseMode)
-	err := godotenv.Load()
-	if err != nil {
-		log.Println("(dev) Error loading .env file")
-	}
-	envDevlopment := os.Getenv("ENV_DEV")
-
+	envDevlopment := config.AppConfig.EnvDev
 	if envDevlopment == env_local {
 		gin.SetMode(gin.ReleaseMode)
 		docs.SwaggerInfo.BasePath = "/"
@@ -66,36 +60,15 @@ func (sv *server) RunApp() error {
 	}
 
 	router := gin.New()
-	router.Use(
-		middleware.SkipSwaggerLog(),
-		gin.Recovery(),
-	)
+	router.Use(middleware.SkipSwaggerLog(), gin.Recovery())
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
+	router.GET("/ping", func(c *gin.Context) { c.JSON(http.StatusOK, gin.H{"message": "curanest-auth-service - pong"}) })
 
-	/* ping - test */
-	router.GET("/ping", func(c *gin.Context) {
-		c.JSON(http.StatusOK, gin.H{"message": "curanest-auth-service - pong x777"})
-	})
+	tokenProvider := common.NewJWTx(config.AppConfig.Key, 60*60*24*7)
+	role_query_builder := rolequeries.NewRoleQueryWithBuilder(builder.NewRoleBuilder(sv.db))
+	acc_query_builder := accountqueries.NewAccountQueryWithBuilder(builder.NewAccountBuilder(sv.db).AddTokenProvider(tokenProvider))
+	acc_cmd_builder := accountcommands.NewAccountCmdWithBuilder(builder.NewAccountBuilder(sv.db))
 
-	tokenProvider := common.NewJWTx("hehe-haha-hihi-kkkk-huhu-hichic", 60*60*24*7)
-
-	/*
-	* usecase (commandes - queries)
-	* */
-	// role
-	role_query_builder := rolequeries.NewRoleQueryWithBuilder(
-		builder.NewRoleBuilder(sv.db),
-	)
-
-	// account
-	acc_query_builder := accountqueries.NewAccountQueryWithBuilder(
-		builder.NewAccountBuilder(sv.db).AddTokenProvider(tokenProvider),
-	)
-	acc_cmd_builder := accountcommands.NewAccountCmdWithBuilder(
-		builder.NewAccountBuilder(sv.db),
-	)
-
-	// http vs rpc
 	api := router.Group("/api/v1")
 	{
 		rolehttpservice.NewCategoryHTTPService(role_query_builder).Routes(api)

@@ -25,7 +25,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Account"
+                    "account"
                 ],
                 "summary": "login by phone number",
                 "parameters": [
@@ -92,7 +92,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Account - RPC"
+                    "rpc: account"
                 ],
                 "summary": "create account",
                 "parameters": [

@@ -8,7 +8,7 @@ import (
 
 // @Summary		login by phone number
 // @Description	login by phone number
-// @Tags			Account
+// @Tags			account
 // @Accept			json
 // @Produce		json
 // @Param			create	form		body					accountqueries.LoginByPhoneRequestDTO	true	"account creation data"

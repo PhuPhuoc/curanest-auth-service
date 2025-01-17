@@ -11,7 +11,7 @@ import (
 
 // @Summary		create account
 // @Description	create account
-// @Tags			Account - RPC
+// @Tags			rpc: account
 // @Accept			json
 // @Produce		json
 // @Param			create	form		body					accountcommands.CreateAccountCmdDTO	true	"account creation data"
