@@ -75,7 +75,7 @@ func (sv *server) RunApp() error {
 		accounthttpservice.NewAccountHTTPService(acc_query_builder).Routes(api)
 	}
 
-	rpc := router.Group("/internal/rpc")
+	rpc := router.Group("/external/rpc")
 	{
 		accountrpcservice.NewAccountRPCService(
 			acc_cmd_builder,

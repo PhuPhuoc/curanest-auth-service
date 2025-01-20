@@ -17,7 +17,7 @@ import (
 // @Param			create	form		body					accountcommands.CreateAccountCmdDTO	true	"account creation data"
 // @Success		200		{object}	map[string]interface{}	"data"
 // @Failure		400		{object}	error					"Bad request error"
-// @Router			/internal/rpc/accounts [post]
+// @Router			/external/rpc/accounts [post]
 func (s *accountRPCService) handleCreateAccount() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		var dto accountcommands.CreateAccountCmdDTO
@@ -26,6 +26,7 @@ func (s *accountRPCService) handleCreateAccount() gin.HandlerFunc {
 			return
 		}
 
+		fmt.Println("dto: ", dto)
 		dtoFindByEmail, err := s.query.FindByEmail.Handle(ctx, dto.Email)
 		if err != nil && !errors.Is(err, common.ErrRecordNotFound) {
 			common.ResponseError(ctx, err)
@@ -46,11 +47,12 @@ func (s *accountRPCService) handleCreateAccount() gin.HandlerFunc {
 			return
 		}
 
-		if err := s.cmd.CreateAccount.Handle(ctx, &dto); err != nil {
+		id, err := s.cmd.CreateAccount.Handle(ctx, &dto)
+		if err != nil {
 			common.ResponseError(ctx, err)
 			return
 		}
 
-		common.ResponseCreated(ctx)
+		common.ResponseSuccess(ctx, id)
 	}
 }

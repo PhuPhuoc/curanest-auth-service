@@ -28,23 +28,23 @@ func NewCreateAccountHandler(cmdRepo AccountCommandRepo, roleFetch RoleFetcher) 
 	}
 }
 
-func (h *createAccountHandler) Handle(ctx context.Context, dto *CreateAccountCmdDTO) error {
+func (h *createAccountHandler) Handle(ctx context.Context, dto *CreateAccountCmdDTO) (uuid.UUID, error) {
 	//  generate salt
 	var salt, hashedPassword string
 	var err error
 	if salt, err = common.RandomStr(30); err != nil {
-		return err
+		return uuid.Nil, err
 	}
 
 	//  hash password + salt
 	if hashedPassword, err = common.HashPassword(salt, dto.Password); err != nil {
-		return err
+		return uuid.Nil, err
 	}
 
 	// get roleid
 	var roleid *uuid.UUID
 	if roleid, err = h.rolefetcher.GetRoleIdByName(ctx, dto.RoleName); err != nil {
-		return err
+		return uuid.Nil, err
 	}
 
 	accid := common.GenUUID()
@@ -62,7 +62,7 @@ func (h *createAccountHandler) Handle(ctx context.Context, dto *CreateAccountCmd
 	)
 
 	if err = h.commandrepo.Create(ctx, entity); err != nil {
-		return err
+		return uuid.Nil, err
 	}
-	return nil
+	return accid, nil
 }

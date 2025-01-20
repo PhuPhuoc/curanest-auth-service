@@ -82,7 +82,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/internal/rpc/accounts": {
+        "/external/rpc/accounts": {
             "post": {
                 "description": "create account",
                 "consumes": [

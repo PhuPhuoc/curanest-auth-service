@@ -69,7 +69,7 @@ paths:
       summary: get roles
       tags:
       - roles
-  /internal/rpc/accounts:
+  /external/rpc/accounts:
     post:
       consumes:
       - application/json
