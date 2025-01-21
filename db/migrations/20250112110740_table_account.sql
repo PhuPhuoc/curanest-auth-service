@@ -12,6 +12,7 @@ CREATE TABLE `accounts` (
     `status` enum('activated','banned') DEFAULT 'activated',
     `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
     `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (`id`),
     UNIQUE KEY `unique_email_phone` (`email`, `phone_number`),
     KEY `idx_role_id` (`role_id`),
     CONSTRAINT `fk_accounts_roles` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON UPDATE CASCADE

@@ -36,7 +36,7 @@ func (j *JWTx) IssueToken(ctx context.Context, id, sub, role string) (string, er
 		"role": role,
 		"exp":  now.Add(time.Second * time.Duration(j.expireTokenInSeconds)).Unix(),
 		"iat":  now.Unix(),
-		"jti":  id,
+		"id":   id,
 	}
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
