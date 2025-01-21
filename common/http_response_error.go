@@ -29,3 +29,19 @@ func ResponseError(c *gin.Context, err error) {
 		"error":   err.Error(),
 	})
 }
+
+func ResponseUnauthorizedError(c *gin.Context, detail string) {
+	c.JSON(http.StatusUnauthorized, gin.H{
+		"success": false,
+		"error":   "unauthorized",
+		"detail":  detail,
+	})
+}
+
+func ResponseFobiddenError(c *gin.Context, detail string) {
+	c.JSON(http.StatusForbidden, gin.H{
+		"success": false,
+		"error":   "fobidden",
+		"detail":  detail,
+	})
+}

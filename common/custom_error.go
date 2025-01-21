@@ -92,16 +92,10 @@ func getCallerInfo() (string, int) {
 }
 
 func (e *AppError) Error() string {
-	return e.Message
+	return e.Message + " - " + e.ReasonField + " - " + e.Inner
 }
 
 //	func (e *AppError) WithDetail(key string, value interface{}) *AppError {
 //		e.Details[key] = value
 //		return e
 //	}
-
-var (
-	ErrorEmailNotFound = NewAppError(http.StatusNotFound, "Email Not Found", false)
-	ErrorWrongPassword = NewAppError(http.StatusNotFound, "Wrong Password", false)
-	ErrorUnauthorized  = NewAppError(http.StatusUnauthorized, "Unauthorized access", false)
-)
