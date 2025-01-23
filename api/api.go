@@ -62,23 +62,42 @@ func (sv *server) RunApp() error {
 
 	router := gin.New()
 	router.Use(cors.New(cors.Config{
-		AllowOrigins:     []string{"*"},
-		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
-		AllowHeaders:     []string{"Origin", "Authorization", "Content-Type", "X-Requested-With"},
+		AllowOrigins: []string{
+			"http://localhost:3000",
+			"https://curanest.com.vn",
+			"capacitor://localhost",
+			"ionic://localhost",
+			"http://localhost",
+			"http://127.0.0.1",
+		},
+		AllowMethods: []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
+		AllowHeaders: []string{
+			"Origin",
+			"Content-Type",
+			"Content-Length",
+			"Accept-Encoding",
+			"X-CSRF-Token",
+			"Authorization",
+			"accept",
+			"origin",
+			"Cache-Control",
+			"X-Requested-With",
+			"Access-Control-Allow-Origin",
+		},
 		ExposeHeaders:    []string{"Content-Length"},
 		AllowCredentials: true,
-		MaxAge:           12 * time.Hour,
+		MaxAge:           13 * time.Hour,
 	}))
 	router.Use(middleware.SkipSwaggerLog(), gin.Recovery())
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
 	router.GET("/ping", func(c *gin.Context) { c.JSON(http.StatusOK, gin.H{"message": "curanest-auth-service - pong"}) })
 
-	tokenProvider := common.NewJWTx(config.AppConfig.Key, 64*60*24*7)
+	tokenProvider := common.NewJWTx(config.AppConfig.Key, 65*60*24*7)
 	role_query_builder := rolequeries.NewRoleQueryWithBuilder(builder.NewRoleBuilder(sv.db))
 	acc_query_builder := accountqueries.NewAccountQueryWithBuilder(builder.NewAccountBuilder(sv.db).AddTokenProvider(tokenProvider))
 	acc_cmd_builder := accountcommands.NewAccountCmdWithBuilder(builder.NewAccountBuilder(sv.db))
 
-	api := router.Group("/api/v1")
+	api := router.Group("/api/v2")
 	{
 		rolehttpservice.NewCategoryHTTPService(role_query_builder).Routes(api)
 		accounthttpservice.NewAccountHTTPService(acc_query_builder).Routes(api)
