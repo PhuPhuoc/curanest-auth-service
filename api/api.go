@@ -61,33 +61,15 @@ func (sv *server) RunApp() error {
 	}
 
 	router := gin.New()
-	router.Use(cors.New(cors.Config{
-		AllowOrigins: []string{
-			"http://localhost:3000",
-			"https://curanest.com.vn",
-			"capacitor://localhost",
-			"ionic://localhost",
-			"http://localhost",
-			"http://127.0.0.1",
-		},
-		AllowMethods: []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
-		AllowHeaders: []string{
-			"Origin",
-			"Content-Type",
-			"Content-Length",
-			"Accept-Encoding",
-			"X-CSRF-Token",
-			"Authorization",
-			"accept",
-			"origin",
-			"Cache-Control",
-			"X-Requested-With",
-			"Access-Control-Allow-Origin",
-		},
-		ExposeHeaders:    []string{"Content-Length"},
-		AllowCredentials: true,
-		MaxAge:           13 * time.Hour,
-	}))
+	configcors := cors.DefaultConfig()
+	configcors.AllowAllOrigins = true
+	configcors.AllowMethods = []string{"POST", "GET", "PUT", "OPTIONS"}
+	configcors.AllowHeaders = []string{"Origin", "Content-Type", "Authorization", "Accept", "User-Agent", "Cache-Control", "Pragma"}
+	configcors.ExposeHeaders = []string{"Content-Length"}
+	configcors.AllowCredentials = true
+	configcors.MaxAge = 12 * time.Hour
+
+	router.Use(cors.New(configcors))
 	router.Use(middleware.SkipSwaggerLog(), gin.Recovery())
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
 	router.GET("/ping", func(c *gin.Context) { c.JSON(http.StatusOK, gin.H{"message": "curanest-auth-service - pong"}) })
@@ -97,7 +79,7 @@ func (sv *server) RunApp() error {
 	acc_query_builder := accountqueries.NewAccountQueryWithBuilder(builder.NewAccountBuilder(sv.db).AddTokenProvider(tokenProvider))
 	acc_cmd_builder := accountcommands.NewAccountCmdWithBuilder(builder.NewAccountBuilder(sv.db))
 
-	api := router.Group("/api/v2")
+	api := router.Group("/api/v1")
 	{
 		rolehttpservice.NewCategoryHTTPService(role_query_builder).Routes(api)
 		accounthttpservice.NewAccountHTTPService(acc_query_builder).Routes(api)
