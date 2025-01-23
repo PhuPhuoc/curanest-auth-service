@@ -15,6 +15,7 @@ type Account struct {
 	email       string
 	password    string
 	salt        string
+	avatar      string
 	status      Status
 	createdAt   *time.Time
 	updatedAt   *time.Time
@@ -46,6 +47,10 @@ func (a *Account) GetPassword() string {
 
 func (a *Account) GetSalt() string {
 	return a.salt
+}
+
+func (a *Account) GetAvatar() string {
+	return a.avatar
 }
 
 func (a *Account) GetStatus() Status {

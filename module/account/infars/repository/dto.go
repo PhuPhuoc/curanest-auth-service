@@ -12,8 +12,8 @@ const (
 	field   = `id, role_id, full_name, phone_number, email, password, salt, status`
 	mapping = `:id, :role_id, :full_name, :phone_number, :email, :password, :salt, :status`
 
-	getField   = `id, role_id, full_name, phone_number, email, password, salt, status, created_at, updated_at`
-	getMapping = `:id, :role_id, :full_name, :phone_number, :email, :password, :salt, :status, :created_at, :updated_at`
+	getField   = `id, role_id, full_name, phone_number, email, status, created_at, updated_at`
+	getMapping = `:id, :role_id, :full_name, :phone_number, :email, :status, :created_at, :updated_at`
 )
 
 type AccountDTO struct {

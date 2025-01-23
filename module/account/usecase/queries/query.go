@@ -18,6 +18,9 @@ type Queries struct {
 	FindByPhone *findByPhoneHandler
 
 	LoginByPhone *loginByPhonePasswordHandler
+
+	GetByIds     *getAccountByIdsHandler
+	GetMyAccount *getMyAccountHandler
 }
 
 type Builder interface {
@@ -36,14 +39,27 @@ func NewAccountQueryWithBuilder(b Builder) Queries {
 			b.BuilderTokenProvider(),
 			b.BuildRoleFetcherRepoQuery(),
 		),
+
+		GetByIds: NewGetAccountByIdsHandler(
+			b.BuildAccountQueryRepo(),
+			b.BuildRoleFetcherRepoQuery(),
+		),
+		GetMyAccount: NewGetMyAccountHandler(
+			b.BuildAccountQueryRepo(),
+			b.BuildRoleFetcherRepoQuery(),
+		),
 	}
 }
 
 type AccountQueryRepo interface {
 	FindByEmail(ctx context.Context, email string) (*accountdomain.Account, error)
 	FindByPhoneNumber(ctx context.Context, phoneNumber string) (*accountdomain.Account, error)
+	FindById(ctx context.Context, id uuid.UUID) (*accountdomain.Account, error)
+
+	GetAccountByIds(ctx context.Context, ids []uuid.UUID) ([]accountdomain.Account, error)
 }
 
 type RoleFetcher interface {
 	GetNameByRoleId(ctx context.Context, id uuid.UUID) (string, error)
+	GetRoleIdByName(ctx context.Context, roleName string) (*uuid.UUID, error)
 }

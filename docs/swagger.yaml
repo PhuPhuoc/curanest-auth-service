@@ -12,6 +12,15 @@ definitions:
       role-name:
         type: string
     type: object
+  accountqueries.AccountIdsQuery:
+    properties:
+      ids:
+        items:
+          type: string
+        type: array
+      role:
+        type: string
+    type: object
   accountqueries.LoginByPhoneRequestDTO:
     properties:
       password:
@@ -21,6 +30,12 @@ definitions:
     type: object
 info:
   contact: {}
+  description: |-
+    Auth-service: https://api.curanest.com.vn/auth/swagger/index.html.
+    Patient-service: https://api.curanest.com.vn/auth/swagger/index.html.
+    Nurse-service: https://api.curanest.com.vn/auth/swagger/index.html.
+    Appointment-service (not ready - expected): https://api.curanest.com.vn/auth/swagger/index.html.
+    Notification-service (not ready - expected): https://api.curanest.com.vn/auth/swagger/index.html.
   title: Authentication Service
   version: "1.0"
 paths:
@@ -95,6 +110,55 @@ paths:
       summary: create account
       tags:
       - 'rpc: account'
+  /external/rpc/accounts/by-ids:
+    post:
+      consumes:
+      - application/json
+      description: get account by ids
+      parameters:
+      - description: account creation data
+        in: body
+        name: form
+        required: true
+        schema:
+          $ref: '#/definitions/accountqueries.AccountIdsQuery'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: data
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad request error
+          schema: {}
+      security:
+      - ApiKeyAuth: []
+      summary: get account by ids
+      tags:
+      - 'rpc: account'
+  /external/rpc/accounts/me:
+    get:
+      consumes:
+      - application/json
+      description: get my account by token
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: data
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad request error
+          schema: {}
+      security:
+      - ApiKeyAuth: []
+      summary: get my account by token
+      tags:
+      - 'rpc: account'
   /ping:
     get:
       consumes:
@@ -114,4 +178,9 @@ paths:
       summary: ping server
       tags:
       - ping
+securityDefinitions:
+  ApiKeyAuth:
+    in: header
+    name: Authorization
+    type: apiKey
 swagger: "2.0"

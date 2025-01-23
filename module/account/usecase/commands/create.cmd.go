@@ -44,7 +44,9 @@ func (h *createAccountHandler) Handle(ctx context.Context, dto *CreateAccountCmd
 	// get roleid
 	var roleid *uuid.UUID
 	if roleid, err = h.rolefetcher.GetRoleIdByName(ctx, dto.RoleName); err != nil {
-		return uuid.Nil, err
+		return uuid.Nil, common.NewInternalServerError().
+			WithReason("cannot get role-id from db").
+			WithInner(err.Error())
 	}
 
 	accid := common.GenUUID()
@@ -62,7 +64,9 @@ func (h *createAccountHandler) Handle(ctx context.Context, dto *CreateAccountCmd
 	)
 
 	if err = h.commandrepo.Create(ctx, entity); err != nil {
-		return uuid.Nil, err
+		return uuid.Nil, common.NewInternalServerError().
+			WithReason("cannot get insert account into db").
+			WithInner(err.Error())
 	}
 	return accid, nil
 }

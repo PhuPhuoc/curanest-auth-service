@@ -80,7 +80,7 @@ func (sv *server) RunApp() error {
 		accountrpcservice.NewAccountRPCService(
 			acc_cmd_builder,
 			acc_query_builder,
-		).Routes(rpc)
+		).AddAuth(tokenProvider).Routes(rpc)
 	}
 
 	log.Println("server start listening at port: ", sv.port)
