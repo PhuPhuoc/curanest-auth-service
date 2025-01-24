@@ -290,7 +290,7 @@ var SwaggerInfo = &swag.Spec{
 	BasePath:         "",
 	Schemes:          []string{},
 	Title:            "Authentication Service",
-	Description:      "Auth-service: https://api.curanest.com.vn/auth/swagger/index.html.\nPatient-service: https://api.curanest.com.vn/auth/swagger/index.html.\nNurse-service: https://api.curanest.com.vn/auth/swagger/index.html.\nAppointment-service (not ready - expected): https://api.curanest.com.vn/auth/swagger/index.html.\nNotification-service (not ready - expected): https://api.curanest.com.vn/auth/swagger/index.html.",
+	Description:      "Auth-service: https://api.curanest.com.vn/auth/swagger/index.html.\nPatient-service: https://api.curanest.com.vn/patient/swagger/index.html.\nNurse-service: https://api.curanest.com.vn/nurse/swagger/index.html.\nAppointment-service (not ready - expected): https://api.curanest.com.vn/appointment/swagger/index.html.\nNotification-service (not ready - expected): https://api.curanest.com.vn/notification/swagger/index.html.",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
 	LeftDelim:        "{{",

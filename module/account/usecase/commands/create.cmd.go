@@ -28,23 +28,27 @@ func NewCreateAccountHandler(cmdRepo AccountCommandRepo, roleFetch RoleFetcher) 
 	}
 }
 
-func (h *createAccountHandler) Handle(ctx context.Context, dto *CreateAccountCmdDTO) (uuid.UUID, error) {
+type ResponseCreateAccountDTO struct {
+	Id string `json:"id"`
+}
+
+func (h *createAccountHandler) Handle(ctx context.Context, dto *CreateAccountCmdDTO) (*ResponseCreateAccountDTO, error) {
 	//  generate salt
 	var salt, hashedPassword string
 	var err error
 	if salt, err = common.RandomStr(30); err != nil {
-		return uuid.Nil, err
+		return nil, err
 	}
 
 	//  hash password + salt
 	if hashedPassword, err = common.HashPassword(salt, dto.Password); err != nil {
-		return uuid.Nil, err
+		return nil, err
 	}
 
 	// get roleid
 	var roleid *uuid.UUID
 	if roleid, err = h.rolefetcher.GetRoleIdByName(ctx, dto.RoleName); err != nil {
-		return uuid.Nil, common.NewInternalServerError().
+		return nil, common.NewInternalServerError().
 			WithReason("cannot get role-id from db").
 			WithInner(err.Error())
 	}
@@ -64,9 +68,14 @@ func (h *createAccountHandler) Handle(ctx context.Context, dto *CreateAccountCmd
 	)
 
 	if err = h.commandrepo.Create(ctx, entity); err != nil {
-		return uuid.Nil, common.NewInternalServerError().
+		return nil, common.NewInternalServerError().
 			WithReason("cannot get insert account into db").
 			WithInner(err.Error())
 	}
-	return accid, nil
+
+	response := &ResponseCreateAccountDTO{
+		Id: accid.String(),
+	}
+
+	return response, nil
 }

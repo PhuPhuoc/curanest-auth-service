@@ -5,28 +5,29 @@ import (
 	"errors"
 
 	"github.com/PhuPhuoc/curanest-auth-service/common"
-	accountdomain "github.com/PhuPhuoc/curanest-auth-service/module/account/domain"
 )
 
-type findByPhoneHandler struct {
+type validateAccountPhoneNumberHandler struct {
 	queryRepo AccountQueryRepo
 }
 
-func NewFindByPhoneHandler(queryRepo AccountQueryRepo) *findByPhoneHandler {
-	return &findByPhoneHandler{
+func NewVerifyPhoneHandler(queryRepo AccountQueryRepo) *validateAccountPhoneNumberHandler {
+	return &validateAccountPhoneNumberHandler{
 		queryRepo: queryRepo,
 	}
 }
 
-func (h *findByPhoneHandler) Handle(ctx context.Context, phoneNumber string) (*accountdomain.Account, error) {
+func (h *validateAccountPhoneNumberHandler) Handle(ctx context.Context, phoneNumber string) error {
 	entityFound, err := h.queryRepo.FindByPhoneNumber(ctx, phoneNumber)
 	if err != nil {
 		if !errors.Is(err, common.ErrRecordNotFound) {
-			return nil, common.NewInternalServerError().
-				WithReason("cannot get entity from db").
+			return common.NewInternalServerError().
+				WithReason("unable to perform the step of checking phone number exists in the system").
 				WithInner(err.Error())
 		}
-		return nil, err
 	}
-	return entityFound, nil
+	if entityFound != nil {
+		return common.NewBadRequestError().WithReason("Phone Number already exists: " + phoneNumber)
+	}
+	return nil
 }

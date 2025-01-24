@@ -2,8 +2,11 @@ package common
 
 import "github.com/google/uuid"
 
+type contextKey string
+
 const (
-	KeyRequester = "requester"
+	KeyRequester contextKey = "requester"
+	KeyToken     contextKey = "token"
 )
 
 type Requester interface {

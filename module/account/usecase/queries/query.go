@@ -14,8 +14,8 @@ type TokenProvider interface {
 }
 
 type Queries struct {
-	FindByEmail *findByEmailHandler
-	FindByPhone *findByPhoneHandler
+	VerifyEmail       *validateAccountEmailHandler
+	VerifyPhoneNumber *validateAccountPhoneNumberHandler
 
 	LoginByPhone *loginByPhonePasswordHandler
 
@@ -31,8 +31,8 @@ type Builder interface {
 
 func NewAccountQueryWithBuilder(b Builder) Queries {
 	return Queries{
-		FindByEmail: NewFindByEmailHandler(b.BuildAccountQueryRepo()),
-		FindByPhone: NewFindByPhoneHandler(b.BuildAccountQueryRepo()),
+		VerifyEmail:       NewValidateAccountEmailHandler(b.BuildAccountQueryRepo()),
+		VerifyPhoneNumber: NewVerifyPhoneHandler(b.BuildAccountQueryRepo()),
 
 		LoginByPhone: NewLoginWithPhoneHandler(
 			b.BuildAccountQueryRepo(),

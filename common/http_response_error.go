@@ -26,22 +26,7 @@ func ResponseError(c *gin.Context, err error) {
 	}
 	c.JSON(http.StatusBadRequest, gin.H{
 		"success": false,
+		"status":  http.StatusBadRequest,
 		"error":   err.Error(),
-	})
-}
-
-func ResponseUnauthorizedError(c *gin.Context, detail string) {
-	c.JSON(http.StatusUnauthorized, gin.H{
-		"success": false,
-		"error":   "unauthorized",
-		"detail":  detail,
-	})
-}
-
-func ResponseFobiddenError(c *gin.Context, detail string) {
-	c.JSON(http.StatusForbidden, gin.H{
-		"success": false,
-		"error":   "fobidden",
-		"detail":  detail,
 	})
 }

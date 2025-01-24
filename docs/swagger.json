@@ -1,7 +1,7 @@
 {
     "swagger": "2.0",
     "info": {
-        "description": "Auth-service: https://api.curanest.com.vn/auth/swagger/index.html.\nPatient-service: https://api.curanest.com.vn/auth/swagger/index.html.\nNurse-service: https://api.curanest.com.vn/auth/swagger/index.html.\nAppointment-service (not ready - expected): https://api.curanest.com.vn/auth/swagger/index.html.\nNotification-service (not ready - expected): https://api.curanest.com.vn/auth/swagger/index.html.",
+        "description": "Auth-service: https://api.curanest.com.vn/auth/swagger/index.html.\nPatient-service: https://api.curanest.com.vn/patient/swagger/index.html.\nNurse-service: https://api.curanest.com.vn/nurse/swagger/index.html.\nAppointment-service (not ready - expected): https://api.curanest.com.vn/appointment/swagger/index.html.\nNotification-service (not ready - expected): https://api.curanest.com.vn/notification/swagger/index.html.",
         "title": "Authentication Service",
         "contact": {},
         "version": "1.0"

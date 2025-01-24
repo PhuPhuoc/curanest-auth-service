@@ -51,7 +51,7 @@ const (
 func (sv *server) RunApp() error {
 	envDevlopment := config.AppConfig.EnvDev
 	if envDevlopment == env_local {
-		gin.SetMode(gin.ReleaseMode)
+		// gin.SetMode(gin.ReleaseMode)
 		docs.SwaggerInfo.BasePath = "/"
 	}
 
@@ -61,6 +61,7 @@ func (sv *server) RunApp() error {
 	}
 
 	router := gin.New()
+
 	configcors := cors.DefaultConfig()
 	configcors.AllowAllOrigins = true
 	configcors.AllowMethods = []string{"POST", "GET", "PUT", "OPTIONS"}
