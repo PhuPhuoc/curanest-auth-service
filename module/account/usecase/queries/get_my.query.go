@@ -2,11 +2,8 @@ package accountqueries
 
 import (
 	"context"
-	"time"
 
 	"github.com/PhuPhuoc/curanest-auth-service/common"
-	accountdomain "github.com/PhuPhuoc/curanest-auth-service/module/account/domain"
-	"github.com/google/uuid"
 )
 
 type getMyAccountHandler struct {
@@ -19,30 +16,6 @@ func NewGetMyAccountHandler(queryRepo AccountQueryRepo, roleFetcher RoleFetcher)
 		queryRepo:   queryRepo,
 		roleFetcher: roleFetcher,
 	}
-}
-
-type MyAccountDTO struct {
-	Id          uuid.UUID `json:"id"`
-	RoleId      uuid.UUID `json:"-"`
-	Role        string    `json:"role"`
-	FullName    string    `json:"full-name"`
-	Email       string    `json:"email"`
-	PhoneNumber string    `json:"phone-number"`
-	Avatar      string    `json:"avatar"`
-	CreatedAt   time.Time `json:"created-at"`
-}
-
-func toMyAccDTO(data *accountdomain.Account) *MyAccountDTO {
-	dto := &MyAccountDTO{
-		Id:          data.GetID(),
-		RoleId:      data.GetRoleID(),
-		FullName:    data.GetFullName(),
-		Email:       data.GetEmail(),
-		PhoneNumber: data.GetPhoneNumber(),
-		Avatar:      data.GetAvatar(),
-		CreatedAt:   data.GetCreatedAt(),
-	}
-	return dto
 }
 
 func (h *getMyAccountHandler) Handle(ctx context.Context) (*MyAccountDTO, error) {

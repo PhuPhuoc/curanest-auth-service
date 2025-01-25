@@ -19,8 +19,9 @@ type Queries struct {
 
 	LoginByPhone *loginByPhonePasswordHandler
 
-	GetByIds     *getAccountByIdsHandler
-	GetMyAccount *getMyAccountHandler
+	GetByIds             *getAccountByIdsHandler
+	GetMyAccount         *getMyAccountHandler
+	GetAccountWithFilter *getAccountWithFilterHandler
 }
 
 type Builder interface {
@@ -48,6 +49,10 @@ func NewAccountQueryWithBuilder(b Builder) Queries {
 			b.BuildAccountQueryRepo(),
 			b.BuildRoleFetcherRepoQuery(),
 		),
+		GetAccountWithFilter: NewGetAccountWithFilterHandler(
+			b.BuildAccountQueryRepo(),
+			b.BuildRoleFetcherRepoQuery(),
+		),
 	}
 }
 
@@ -57,6 +62,7 @@ type AccountQueryRepo interface {
 	FindById(ctx context.Context, id uuid.UUID) (*accountdomain.Account, error)
 
 	GetAccountByIds(ctx context.Context, ids []uuid.UUID) ([]accountdomain.Account, error)
+	GetAccountWithFilter(ctx context.Context, filter *FilterAccountQuery) ([]accountdomain.Account, error)
 }
 
 type RoleFetcher interface {

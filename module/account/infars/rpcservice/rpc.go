@@ -35,6 +35,12 @@ func (s *accountRPCService) Routes(g *gin.RouterGroup) {
 			middleware.RequireRole("admin", "staff"),
 			s.handleGetAccountByIds(),
 		)
+		account_route.POST(
+			"/filter",
+			middleware.RequireAuth(s.auth),
+			middleware.RequireRole("admin", "staff"),
+			s.handleGetAccountsWithFilter(),
+		)
 		account_route.GET(
 			"/me",
 			middleware.RequireAuth(s.auth),

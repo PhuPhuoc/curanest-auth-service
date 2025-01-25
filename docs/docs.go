@@ -165,6 +165,50 @@ const docTemplate = `{
                 }
             }
         },
+        "/external/rpc/accounts/filter": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "get account with filter",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "rpc: account"
+                ],
+                "summary": "get account with filter",
+                "parameters": [
+                    {
+                        "description": "account creation data",
+                        "name": "form",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/accountqueries.FilterAccountQuery"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "data",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request error",
+                        "schema": {}
+                    }
+                }
+            }
+        },
         "/external/rpc/accounts/me": {
             "get": {
                 "security": [
@@ -262,6 +306,34 @@ const docTemplate = `{
                 }
             }
         },
+        "accountqueries.FieldFilterAccount": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "full-name": {
+                    "type": "string"
+                },
+                "phone-number": {
+                    "type": "string"
+                },
+                "role": {
+                    "type": "string"
+                }
+            }
+        },
+        "accountqueries.FilterAccountQuery": {
+            "type": "object",
+            "properties": {
+                "filter": {
+                    "$ref": "#/definitions/accountqueries.FieldFilterAccount"
+                },
+                "paging": {
+                    "$ref": "#/definitions/common.Paging"
+                }
+            }
+        },
         "accountqueries.LoginByPhoneRequestDTO": {
             "type": "object",
             "properties": {
@@ -270,6 +342,20 @@ const docTemplate = `{
                 },
                 "phone-number": {
                     "type": "string"
+                }
+            }
+        },
+        "common.Paging": {
+            "type": "object",
+            "properties": {
+                "page": {
+                    "type": "integer"
+                },
+                "size": {
+                    "type": "integer"
+                },
+                "total": {
+                    "type": "integer"
                 }
             }
         }

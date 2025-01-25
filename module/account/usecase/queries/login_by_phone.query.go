@@ -7,29 +7,6 @@ import (
 	"github.com/PhuPhuoc/curanest-auth-service/common"
 )
 
-type LoginByPhoneRequestDTO struct {
-	PhoneNumber string `json:"phone-number"`
-	Password    string `json:"password"`
-}
-
-type LoginResponseDTO struct {
-	AccountInfo AccountLoginInfo `json:"account-info"`
-	Token       TokenReponseDTO  `json:"token"`
-}
-
-type AccountLoginInfo struct {
-	FullName    string `json:"full-name"`
-	Email       string `json:"email"`
-	PhoneNumber string `json:"phone-number"`
-	Role        string `json:"role"`
-}
-type TokenReponseDTO struct {
-	AccessToken      string `json:"access_token"`
-	AccessTokenExpIn int    `json:"access_token_exp_in"`
-	// RefreshToken      string `json:"refresh_token"`
-	// RefreshTokenExpIn int    `json:"refresh_token_exp_in"`
-}
-
 type loginByPhonePasswordHandler struct {
 	queryRepo     AccountQueryRepo
 	tokenProvider TokenProvider

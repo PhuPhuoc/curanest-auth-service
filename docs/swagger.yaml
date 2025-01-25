@@ -21,12 +21,39 @@ definitions:
       role:
         type: string
     type: object
+  accountqueries.FieldFilterAccount:
+    properties:
+      email:
+        type: string
+      full-name:
+        type: string
+      phone-number:
+        type: string
+      role:
+        type: string
+    type: object
+  accountqueries.FilterAccountQuery:
+    properties:
+      filter:
+        $ref: '#/definitions/accountqueries.FieldFilterAccount'
+      paging:
+        $ref: '#/definitions/common.Paging'
+    type: object
   accountqueries.LoginByPhoneRequestDTO:
     properties:
       password:
         type: string
       phone-number:
         type: string
+    type: object
+  common.Paging:
+    properties:
+      page:
+        type: integer
+      size:
+        type: integer
+      total:
+        type: integer
     type: object
 info:
   contact: {}
@@ -136,6 +163,34 @@ paths:
       security:
       - ApiKeyAuth: []
       summary: get account by ids
+      tags:
+      - 'rpc: account'
+  /external/rpc/accounts/filter:
+    post:
+      consumes:
+      - application/json
+      description: get account with filter
+      parameters:
+      - description: account creation data
+        in: body
+        name: form
+        required: true
+        schema:
+          $ref: '#/definitions/accountqueries.FilterAccountQuery'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: data
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad request error
+          schema: {}
+      security:
+      - ApiKeyAuth: []
+      summary: get account with filter
       tags:
       - 'rpc: account'
   /external/rpc/accounts/me:
