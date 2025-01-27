@@ -9,6 +9,7 @@ import (
 
 type Commands struct {
 	CreateAccount *createAccountHandler
+	UpdateAccount *updateAccountHandler
 }
 
 type Builder interface {
@@ -22,11 +23,15 @@ func NewAccountCmdWithBuilder(b Builder) Commands {
 			b.BuildAccountCmdRepo(),
 			b.BuildRoleFetcherRepoCmd(),
 		),
+		UpdateAccount: NewUpdateAccountHandler(
+			b.BuildAccountCmdRepo(),
+		),
 	}
 }
 
 type AccountCommandRepo interface {
 	Create(ctx context.Context, entity *accountdomain.Account) error
+	Update(ctx context.Context, entity *accountdomain.Account) error
 }
 
 type RoleFetcher interface {

@@ -91,7 +91,7 @@ func (r *accountRepo) getCount(
 ) {
 	defer wg.Done()
 
-	query := "select count(*) from " + table + whereClause
+	query := "select count(*) from " + TABLE + whereClause
 
 	queryWithArgs, argList, err := sqlx.Named(query, args)
 	if err != nil {
@@ -129,7 +129,8 @@ func (r *accountRepo) getData(
 	limit := " limit :limit offset :offset"
 
 	order := " order by created_at desc"
-	query := "select " + getField + " from " + table + whereClause + order + limit
+	fields := strings.Join(GET_FIELD, ", ")
+	query := "select " + fields + " from " + TABLE + whereClause + order + limit
 
 	queryWithArgs, argList, err := sqlx.Named(query, queryArgs)
 	if err != nil {

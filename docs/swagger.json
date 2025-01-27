@@ -234,6 +234,57 @@
                 }
             }
         },
+        "/external/rpc/accounts/{account-id}": {
+            "put": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "update account",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "rpc: account"
+                ],
+                "summary": "update account",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Account ID (UUID)",
+                        "name": "account-id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "account data to update",
+                        "name": "form",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/accountcommands.UpdateAccountCmdDTO"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "data",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request error",
+                        "schema": {}
+                    }
+                }
+            }
+        },
         "/ping": {
             "get": {
                 "description": "ping server",
@@ -280,6 +331,23 @@
                     "type": "string"
                 },
                 "role-name": {
+                    "type": "string"
+                }
+            }
+        },
+        "accountcommands.UpdateAccountCmdDTO": {
+            "type": "object",
+            "properties": {
+                "avatar": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "full-name": {
+                    "type": "string"
+                },
+                "phone-number": {
                     "type": "string"
                 }
             }

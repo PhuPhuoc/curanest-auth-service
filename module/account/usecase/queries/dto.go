@@ -23,6 +23,7 @@ type AccountLoginInfo struct {
 	Email       string `json:"email"`
 	PhoneNumber string `json:"phone-number"`
 	Role        string `json:"role"`
+	Avatar      string `json:"avatar"`
 }
 type TokenReponseDTO struct {
 	AccessToken      string `json:"access_token"`

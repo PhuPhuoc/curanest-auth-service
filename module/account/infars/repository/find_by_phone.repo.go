@@ -11,7 +11,8 @@ import (
 
 func (repo *accountRepo) FindByPhoneNumber(ctx context.Context, phoneNumber string) (*accountdomain.Account, error) {
 	var accdto AccountDTO
-	query := `select ` + field + ` from ` + table + ` where phone_number=?`
+	where := "phone_number=?"
+	query := common.GenerateSQLQueries(common.FIND, TABLE, FIELD, &where)
 	if err := repo.db.Get(&accdto, query, phoneNumber); err != nil {
 		if errors.Is(err, sql.ErrNoRows) {
 			return nil, common.ErrRecordNotFound

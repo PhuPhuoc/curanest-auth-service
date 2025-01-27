@@ -12,6 +12,17 @@ definitions:
       role-name:
         type: string
     type: object
+  accountcommands.UpdateAccountCmdDTO:
+    properties:
+      avatar:
+        type: string
+      email:
+        type: string
+      full-name:
+        type: string
+      phone-number:
+        type: string
+    type: object
   accountqueries.AccountIdsQuery:
     properties:
       ids:
@@ -135,6 +146,39 @@ paths:
           description: Bad request error
           schema: {}
       summary: create account
+      tags:
+      - 'rpc: account'
+  /external/rpc/accounts/{account-id}:
+    put:
+      consumes:
+      - application/json
+      description: update account
+      parameters:
+      - description: Account ID (UUID)
+        in: path
+        name: account-id
+        required: true
+        type: string
+      - description: account data to update
+        in: body
+        name: form
+        required: true
+        schema:
+          $ref: '#/definitions/accountcommands.UpdateAccountCmdDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: data
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad request error
+          schema: {}
+      security:
+      - ApiKeyAuth: []
+      summary: update account
       tags:
       - 'rpc: account'
   /external/rpc/accounts/by-ids:

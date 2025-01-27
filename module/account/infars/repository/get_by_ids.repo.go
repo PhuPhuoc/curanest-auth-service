@@ -2,6 +2,7 @@ package accountrepository
 
 import (
 	"context"
+	"strings"
 
 	accountdomain "github.com/PhuPhuoc/curanest-auth-service/module/account/domain"
 	"github.com/google/uuid"
@@ -14,7 +15,8 @@ func (r *accountRepo) GetAccountByIds(ctx context.Context, ids []uuid.UUID) ([]a
 	}
 
 	dtos := []AccountDTO{}
-	query := "select " + getField + " from " + table + " where id in (?)"
+	fields := strings.Join(GET_FIELD, ", ")
+	query := "select " + fields + " from " + TABLE + " where id in (?)"
 
 	query, args, err := sqlx.In(query, ids)
 	if err != nil {

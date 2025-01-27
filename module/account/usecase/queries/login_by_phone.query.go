@@ -58,6 +58,7 @@ func (h *loginByPhonePasswordHandler) Handle(ctx context.Context, req *LoginByPh
 			Email:       entityFound.GetEmail(),
 			PhoneNumber: entityFound.GetPhoneNumber(),
 			Role:        role,
+			Avatar:      entityFound.GetAvatar(),
 		},
 		Token: TokenReponseDTO{
 			AccessToken:      accessToken,

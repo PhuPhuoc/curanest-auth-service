@@ -53,6 +53,7 @@ func (h *createAccountHandler) Handle(ctx context.Context, dto *CreateAccountCmd
 			WithInner(err.Error())
 	}
 
+	avatarURL := "https://www.svgrepo.com/show/452030/avatar-default.svg?fbclid=IwZXh0bgNhZW0CMTEAAR2TmmVNpaiEhrxRl5050nx8IGFzioTMNUsFXYjH1hCLWgIFf7OESRCfX1g_aem_MoE9T4LrDfYPH5XQNMv8JA"
 	accid := common.GenUUID()
 	entity, _ := accountdomain.NewAccount(
 		accid,
@@ -62,8 +63,8 @@ func (h *createAccountHandler) Handle(ctx context.Context, dto *CreateAccountCmd
 		dto.Email,
 		hashedPassword,
 		salt,
+		avatarURL,
 		accountdomain.StatusActivated,
-		nil,
 		nil,
 	)
 

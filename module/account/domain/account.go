@@ -18,7 +18,6 @@ type Account struct {
 	avatar      string
 	status      Status
 	createdAt   *time.Time
-	updatedAt   *time.Time
 }
 
 func (a *Account) GetID() uuid.UUID {
@@ -61,11 +60,7 @@ func (a *Account) GetCreatedAt() time.Time {
 	return *a.createdAt
 }
 
-func (a *Account) GetUpdatedAt() time.Time {
-	return *a.updatedAt
-}
-
-func NewAccount(id, roleId uuid.UUID, fullName, phoneNumber, email, password, salt string, status Status, createdAt, updatedAt *time.Time) (*Account, error) {
+func NewAccount(id, roleId uuid.UUID, fullName, phoneNumber, email, password, salt, avatar string, status Status, createdAt *time.Time) (*Account, error) {
 	return &Account{
 		id:          id,
 		roleId:      roleId,
@@ -74,9 +69,9 @@ func NewAccount(id, roleId uuid.UUID, fullName, phoneNumber, email, password, sa
 		email:       email,
 		password:    password,
 		salt:        salt,
+		avatar:      avatar,
 		status:      status,
 		createdAt:   createdAt,
-		updatedAt:   updatedAt,
 	}, nil
 }
 

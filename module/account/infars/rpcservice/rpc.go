@@ -46,5 +46,10 @@ func (s *accountRPCService) Routes(g *gin.RouterGroup) {
 			middleware.RequireAuth(s.auth),
 			s.handleGetMyAccount(),
 		)
+		account_route.PUT(
+			":account-id",
+			middleware.RequireAuth(s.auth),
+			s.handleUpdateAccount(),
+		)
 	}
 }
