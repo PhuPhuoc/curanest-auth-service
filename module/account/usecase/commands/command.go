@@ -3,13 +3,15 @@ package accountcommands
 import (
 	"context"
 
-	accountdomain "github.com/PhuPhuoc/curanest-auth-service/module/account/domain"
 	"github.com/google/uuid"
+
+	accountdomain "github.com/PhuPhuoc/curanest-auth-service/module/account/domain"
 )
 
 type Commands struct {
-	CreateAccount *createAccountHandler
-	UpdateAccount *updateAccountHandler
+	CreateAccount     *createAccountHandler
+	UpdateAccount     *updateAccountHandler
+	HardDeleteAccount *hardDeleteAccountHandler
 }
 
 type Builder interface {
@@ -26,12 +28,17 @@ func NewAccountCmdWithBuilder(b Builder) Commands {
 		UpdateAccount: NewUpdateAccountHandler(
 			b.BuildAccountCmdRepo(),
 		),
+		HardDeleteAccount: NewHardDeleteAccountHandler(
+			b.BuildAccountCmdRepo(),
+		),
 	}
 }
 
 type AccountCommandRepo interface {
 	Create(ctx context.Context, entity *accountdomain.Account) error
 	Update(ctx context.Context, entity *accountdomain.Account) error
+
+	HardDelete(ctx context.Context, accountId *uuid.UUID) error
 }
 
 type RoleFetcher interface {

@@ -149,6 +149,32 @@ paths:
       tags:
       - 'rpc: account'
   /external/rpc/accounts/{account-id}:
+    delete:
+      consumes:
+      - application/json
+      description: delete account
+      parameters:
+      - description: Account ID (UUID)
+        in: path
+        name: account-id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: data
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad request error
+          schema: {}
+      security:
+      - ApiKeyAuth: []
+      summary: delete account
+      tags:
+      - 'rpc: account'
     put:
       consumes:
       - application/json
