@@ -23,6 +23,11 @@ definitions:
       phone-number:
         type: string
     type: object
+  accountcommands.UpdateRoleRequest:
+    properties:
+      role:
+        type: string
+    type: object
   accountqueries.AccountIdsQuery:
     properties:
       ids:
@@ -205,6 +210,39 @@ paths:
       security:
       - ApiKeyAuth: []
       summary: update account
+      tags:
+      - 'rpc: account'
+  /external/rpc/accounts/{account-id}/role:
+    patch:
+      consumes:
+      - application/json
+      description: update role account for nurse or staff (admin)
+      parameters:
+      - description: Account ID (UUID)
+        in: path
+        name: account-id
+        required: true
+        type: string
+      - description: account data to update
+        in: body
+        name: form
+        required: true
+        schema:
+          $ref: '#/definitions/accountcommands.UpdateRoleRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: data
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad request error
+          schema: {}
+      security:
+      - ApiKeyAuth: []
+      summary: update role account for nurse or staff (admin)
       tags:
       - 'rpc: account'
   /external/rpc/accounts/by-ids:

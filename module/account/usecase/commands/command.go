@@ -11,6 +11,7 @@ import (
 type Commands struct {
 	CreateAccount     *createAccountHandler
 	UpdateAccount     *updateAccountHandler
+	UpdateAccountRole *updateAccountRoleHandler
 	HardDeleteAccount *hardDeleteAccountHandler
 }
 
@@ -28,6 +29,10 @@ func NewAccountCmdWithBuilder(b Builder) Commands {
 		UpdateAccount: NewUpdateAccountHandler(
 			b.BuildAccountCmdRepo(),
 		),
+		UpdateAccountRole: NewUpdateAccountRoleHandler(
+			b.BuildAccountCmdRepo(),
+			b.BuildRoleFetcherRepoCmd(),
+		),
 		HardDeleteAccount: NewHardDeleteAccountHandler(
 			b.BuildAccountCmdRepo(),
 		),
@@ -37,6 +42,7 @@ func NewAccountCmdWithBuilder(b Builder) Commands {
 type AccountCommandRepo interface {
 	Create(ctx context.Context, entity *accountdomain.Account) error
 	Update(ctx context.Context, entity *accountdomain.Account) error
+	UpdateRoleForNurseAndStaff(ctx context.Context, nurseId *uuid.UUID, roleId *uuid.UUID) error
 
 	HardDelete(ctx context.Context, accountId *uuid.UUID) error
 }
