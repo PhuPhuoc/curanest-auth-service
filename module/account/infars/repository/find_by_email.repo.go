@@ -12,7 +12,7 @@ import (
 func (repo *accountRepo) FindByEmail(ctx context.Context, email string) (*accountdomain.Account, error) {
 	var accdto AccountDTO
 	where := "email=?"
-	query := common.GenerateSQLQueries(common.FIND, TABLE, FIELD, &where)
+	query := common.GenerateSQLQueries(common.FIND_WITH_CREATED_AT, TABLE, FIELD, &where)
 	if err := repo.db.Get(&accdto, query, email); err != nil {
 		if errors.Is(err, sql.ErrNoRows) {
 			return nil, common.ErrRecordNotFound

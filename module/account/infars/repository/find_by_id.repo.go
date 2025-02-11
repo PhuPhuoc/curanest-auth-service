@@ -11,7 +11,7 @@ import (
 func (r *accountRepo) FindById(ctx context.Context, id uuid.UUID) (*accountdomain.Account, error) {
 	var accdto AccountDTO
 	where := "id=?"
-	query := common.GenerateSQLQueries(common.FIND, TABLE, GET_FIELD, &where)
+	query := common.GenerateSQLQueries(common.FIND_WITH_CREATED_AT, TABLE, GET_FIELD, &where)
 	if err := r.db.Get(&accdto, query, id); err != nil {
 		return nil, err
 	}
