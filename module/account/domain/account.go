@@ -15,7 +15,6 @@ type Account struct {
 	email       string
 	password    string
 	salt        string
-	avatar      string
 	status      Status
 	createdAt   *time.Time
 }
@@ -48,10 +47,6 @@ func (a *Account) GetSalt() string {
 	return a.salt
 }
 
-func (a *Account) GetAvatar() string {
-	return a.avatar
-}
-
 func (a *Account) GetStatus() Status {
 	return a.status
 }
@@ -60,7 +55,7 @@ func (a *Account) GetCreatedAt() time.Time {
 	return *a.createdAt
 }
 
-func NewAccount(id, roleId uuid.UUID, fullName, phoneNumber, email, password, salt, avatar string, status Status, createdAt *time.Time) (*Account, error) {
+func NewAccount(id, roleId uuid.UUID, fullName, phoneNumber, email, password, salt string, status Status, createdAt *time.Time) (*Account, error) {
 	return &Account{
 		id:          id,
 		roleId:      roleId,
@@ -69,7 +64,6 @@ func NewAccount(id, roleId uuid.UUID, fullName, phoneNumber, email, password, sa
 		email:       email,
 		password:    password,
 		salt:        salt,
-		avatar:      avatar,
 		status:      status,
 		createdAt:   createdAt,
 	}, nil

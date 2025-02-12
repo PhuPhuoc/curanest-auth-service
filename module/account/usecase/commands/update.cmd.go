@@ -22,7 +22,6 @@ type UpdateAccountCmdDTO struct {
 	FullName    string `json:"full-name"`
 	PhoneNumber string `json:"phone-number"`
 	Email       string `json:"email"`
-	Avatar      string `json:"avatar"`
 }
 
 func (h *updateAccountHandler) Handle(ctx context.Context, id *uuid.UUID, dto *UpdateAccountCmdDTO) error {
@@ -34,7 +33,6 @@ func (h *updateAccountHandler) Handle(ctx context.Context, id *uuid.UUID, dto *U
 		dto.Email,
 		"",
 		"",
-		dto.Avatar,
 		accountdomain.StatusActivated,
 		nil,
 	)

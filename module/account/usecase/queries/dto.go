@@ -19,11 +19,11 @@ type LoginResponseDTO struct {
 }
 
 type AccountLoginInfo struct {
-	FullName    string `json:"full-name"`
-	Email       string `json:"email"`
-	PhoneNumber string `json:"phone-number"`
-	Role        string `json:"role"`
-	Avatar      string `json:"avatar"`
+	Id          uuid.UUID `json:"id"`
+	FullName    string    `json:"full-name"`
+	Email       string    `json:"email"`
+	PhoneNumber string    `json:"phone-number"`
+	Role        string    `json:"role"`
 }
 type TokenReponseDTO struct {
 	AccessToken      string `json:"access_token"`
@@ -39,7 +39,6 @@ type MyAccountDTO struct {
 	FullName    string    `json:"full-name"`
 	Email       string    `json:"email"`
 	PhoneNumber string    `json:"phone-number"`
-	Avatar      string    `json:"avatar"`
 	CreatedAt   time.Time `json:"created-at"`
 }
 
@@ -50,7 +49,6 @@ func toMyAccDTO(data *accountdomain.Account) *MyAccountDTO {
 		FullName:    data.GetFullName(),
 		Email:       data.GetEmail(),
 		PhoneNumber: data.GetPhoneNumber(),
-		Avatar:      data.GetAvatar(),
 		CreatedAt:   data.GetCreatedAt(),
 	}
 	return dto
@@ -80,7 +78,6 @@ type AccountDTO struct {
 	FullName    string    `json:"full-name"`
 	Email       string    `json:"email"`
 	PhoneNumber string    `json:"phone-number"`
-	Avatar      string    `json:"avatar"`
 	CreatedAt   time.Time `json:"created-at"`
 }
 
@@ -91,7 +88,6 @@ func toDTO(data *accountdomain.Account) AccountDTO {
 		FullName:    data.GetFullName(),
 		Email:       data.GetEmail(),
 		PhoneNumber: data.GetPhoneNumber(),
-		Avatar:      data.GetAvatar(),
 		CreatedAt:   data.GetCreatedAt(),
 	}
 	return dto

@@ -9,9 +9,9 @@ import (
 
 var (
 	TABLE        = `accounts`
-	FIELD        = []string{"id", "role_id", "full_name", "phone_number", "email", "password", "salt", "avatar", "status"}
-	GET_FIELD    = []string{"id", "role_id", "full_name", "phone_number", "email", "status", "avatar", "created_at"}
-	UPDATE_FIELD = []string{"full_name", "phone_number", "email", "avatar"}
+	FIELD        = []string{"id", "role_id", "full_name", "phone_number", "email", "password", "salt", "status"}
+	GET_FIELD    = []string{"id", "role_id", "full_name", "phone_number", "email", "status", "created_at"}
+	UPDATE_FIELD = []string{"full_name", "phone_number", "email"}
 )
 
 type AccountDTO struct {
@@ -22,7 +22,6 @@ type AccountDTO struct {
 	Email       string     `db:"email"`
 	Password    string     `db:"password"`
 	Salt        string     `db:"salt"`
-	Avatar      string     `db:"avatar"`
 	Status      string     `db:"status"`
 	CreatedAt   *time.Time `db:"created_at"`
 }
@@ -36,7 +35,6 @@ func (dto *AccountDTO) ToEntity() (*accountdomain.Account, error) {
 		dto.Email,
 		dto.Password,
 		dto.Salt,
-		dto.Avatar,
 		accountdomain.Enum(dto.Status),
 		dto.CreatedAt,
 	)
@@ -51,7 +49,6 @@ func ToDTO(data *accountdomain.Account) *AccountDTO {
 		Email:       data.GetEmail(),
 		Password:    data.GetPassword(),
 		Salt:        data.GetSalt(),
-		Avatar:      data.GetAvatar(),
 		Status:      data.GetStatus().String(),
 	}
 	return dto

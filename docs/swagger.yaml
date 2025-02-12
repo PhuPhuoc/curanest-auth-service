@@ -14,8 +14,6 @@ definitions:
     type: object
   accountcommands.UpdateAccountCmdDTO:
     properties:
-      avatar:
-        type: string
       email:
         type: string
       full-name:

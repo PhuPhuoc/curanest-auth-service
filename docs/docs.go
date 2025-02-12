@@ -437,9 +437,6 @@ const docTemplate = `{
         "accountcommands.UpdateAccountCmdDTO": {
             "type": "object",
             "properties": {
-                "avatar": {
-                    "type": "string"
-                },
                 "email": {
                     "type": "string"
                 },

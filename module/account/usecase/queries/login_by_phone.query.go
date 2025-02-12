@@ -54,11 +54,11 @@ func (h *loginByPhonePasswordHandler) Handle(ctx context.Context, req *LoginByPh
 
 	response := &LoginResponseDTO{
 		AccountInfo: AccountLoginInfo{
+			Id:          entityFound.GetID(),
 			FullName:    entityFound.GetFullName(),
 			Email:       entityFound.GetEmail(),
 			PhoneNumber: entityFound.GetPhoneNumber(),
 			Role:        role,
-			Avatar:      entityFound.GetAvatar(),
 		},
 		Token: TokenReponseDTO{
 			AccessToken:      accessToken,

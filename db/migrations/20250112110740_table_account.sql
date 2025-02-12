@@ -8,7 +8,6 @@ CREATE TABLE `accounts` (
     `phone_number` varchar(12) NOT NULL,
     `password` varchar(100) NOT NULL,
     `salt` varchar(80) DEFAULT NULL,
-    `avatar` varchar(255) DEFAULT NULL,
     `status` enum('activated','banned') DEFAULT 'activated',
     `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
     `deleted_at` datetime,
