@@ -47,18 +47,18 @@ func (s *accountRPCService) Routes(g *gin.RouterGroup) {
 			s.handleGetMyAccount(),
 		)
 		account_route.PUT(
-			":account-id",
+			"/:account-id",
 			middleware.RequireAuth(s.auth),
 			s.handleUpdateAccount(),
 		)
 		account_route.PATCH(
-			":account-id/role",
+			"/:account-id/role",
 			middleware.RequireAuth(s.auth),
 			middleware.RequireRole("admin"),
 			s.handleUpdateRoleOfAccountNurseAndStaff(),
 		)
 		account_route.DELETE(
-			":account-id",
+			"/:account-id",
 			middleware.RequireAuth(s.auth),
 			middleware.RequireRole("admin"),
 			s.handleHardDeleteAccount(),
