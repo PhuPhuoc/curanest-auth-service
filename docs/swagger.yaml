@@ -21,11 +21,6 @@ definitions:
       phone-number:
         type: string
     type: object
-  accountcommands.UpdateRoleRequest:
-    properties:
-      role:
-        type: string
-    type: object
   accountqueries.AccountIdsQuery:
     properties:
       ids:
@@ -221,12 +216,11 @@ paths:
         name: account-id
         required: true
         type: string
-      - description: account data to update
-        in: body
-        name: form
+      - description: role to tranfer
+        in: query
+        name: target-role
         required: true
-        schema:
-          $ref: '#/definitions/accountcommands.UpdateRoleRequest'
+        type: string
       produces:
       - application/json
       responses:

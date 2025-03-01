@@ -360,13 +360,11 @@ const docTemplate = `{
                         "required": true
                     },
                     {
-                        "description": "account data to update",
-                        "name": "form",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/accountcommands.UpdateRoleRequest"
-                        }
+                        "type": "string",
+                        "description": "role to tranfer",
+                        "name": "target-role",
+                        "in": "query",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -444,14 +442,6 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "phone-number": {
-                    "type": "string"
-                }
-            }
-        },
-        "accountcommands.UpdateRoleRequest": {
-            "type": "object",
-            "properties": {
-                "role": {
                     "type": "string"
                 }
             }

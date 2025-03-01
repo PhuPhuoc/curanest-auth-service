@@ -21,21 +21,17 @@ func NewUpdateAccountRoleHandler(cmdRepo AccountCommandRepo, roleFetch RoleFetch
 	}
 }
 
-type UpdateRoleRequest struct {
-	Role string `json:"role"`
-}
-
-func (h *updateAccountRoleHandler) Handle(ctx context.Context, nurseId *uuid.UUID, payload *UpdateRoleRequest) error {
-	if payload.Role == "admin" || payload.Role == "relatives" {
+func (h *updateAccountRoleHandler) Handle(ctx context.Context, nurseId *uuid.UUID, targetRole string) error {
+	if targetRole == "admin" || targetRole == "relatives" {
 		return common.NewBadRequestError().
-			WithReason("cannot change to this role '" + payload.Role + "'")
+			WithReason("cannot change to this role '" + targetRole + "'")
 	}
 
-	roleid, err := h.rolefetcher.GetRoleIdByName(ctx, payload.Role)
+	roleid, err := h.rolefetcher.GetRoleIdByName(ctx, targetRole)
 	if err != nil {
 		if errors.Is(err, common.ErrRecordNotFound) {
 			return common.NewBadRequestError().
-				WithReason("no role with name '" + payload.Role + "'")
+				WithReason("no role with name '" + targetRole + "'")
 		}
 	}
 
@@ -46,7 +42,7 @@ func (h *updateAccountRoleHandler) Handle(ctx context.Context, nurseId *uuid.UUI
 				WithInner(err.Error())
 		}
 		return common.NewInternalServerError().
-			WithReason("cannot update this role account to: " + payload.Role).
+			WithReason("cannot update this role account to: " + targetRole).
 			WithInner(err.Error())
 	}
 
