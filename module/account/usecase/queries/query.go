@@ -19,6 +19,7 @@ type Queries struct {
 
 	LoginByPhone *loginByPhonePasswordHandler
 
+	GetById              *getAccountByIdHandler
 	GetByIds             *getAccountByIdsHandler
 	GetMyAccount         *getMyAccountHandler
 	GetAccountWithFilter *getAccountWithFilterHandler
@@ -46,6 +47,10 @@ func NewAccountQueryWithBuilder(b Builder) Queries {
 			b.BuildRoleFetcherRepoQuery(),
 		),
 		GetMyAccount: NewGetMyAccountHandler(
+			b.BuildAccountQueryRepo(),
+			b.BuildRoleFetcherRepoQuery(),
+		),
+		GetById: NewGetAccountByIdHandler(
 			b.BuildAccountQueryRepo(),
 			b.BuildRoleFetcherRepoQuery(),
 		),

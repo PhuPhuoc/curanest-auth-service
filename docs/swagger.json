@@ -235,6 +235,46 @@
             }
         },
         "/external/rpc/accounts/{account-id}": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "get account by id",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "rpc: account"
+                ],
+                "summary": "get account by id",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Account ID (UUID)",
+                        "name": "account-id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "data",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request error",
+                        "schema": {}
+                    }
+                }
+            },
             "put": {
                 "security": [
                     {
