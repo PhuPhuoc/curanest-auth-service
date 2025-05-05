@@ -18,6 +18,7 @@ type Queries struct {
 	VerifyPhoneNumber *validateAccountPhoneNumberHandler
 
 	LoginByPhone *loginByPhonePasswordHandler
+	LoginByEmail *loginByEmailPasswordHandler
 
 	GetById              *getAccountByIdHandler
 	GetByIds             *getAccountByIdsHandler
@@ -29,6 +30,7 @@ type Builder interface {
 	BuildAccountQueryRepo() AccountQueryRepo
 	BuilderTokenProvider() TokenProvider
 	BuildRoleFetcherRepoQuery() RoleFetcher
+	BuildExternalNotiServiceQuery() ExternalNotiService
 }
 
 func NewAccountQueryWithBuilder(b Builder) Queries {
@@ -37,6 +39,13 @@ func NewAccountQueryWithBuilder(b Builder) Queries {
 		VerifyPhoneNumber: NewVerifyPhoneHandler(b.BuildAccountQueryRepo()),
 
 		LoginByPhone: NewLoginWithPhoneHandler(
+			b.BuildAccountQueryRepo(),
+			b.BuilderTokenProvider(),
+			b.BuildRoleFetcherRepoQuery(),
+			b.BuildExternalNotiServiceQuery(),
+		),
+
+		LoginByEmail: NewLoginWithEmailHandler(
 			b.BuildAccountQueryRepo(),
 			b.BuilderTokenProvider(),
 			b.BuildRoleFetcherRepoQuery(),
@@ -73,4 +82,8 @@ type AccountQueryRepo interface {
 type RoleFetcher interface {
 	GetNameByRoleId(ctx context.Context, id uuid.UUID) (string, error)
 	GetRoleIdByName(ctx context.Context, roleName string) (*uuid.UUID, error)
+}
+
+type ExternalNotiService interface {
+	RegisterPushTokenRPC(ctx context.Context, reqBody *RegisPushToken) error
 }

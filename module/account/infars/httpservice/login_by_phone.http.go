@@ -8,13 +8,13 @@ import (
 
 // @Summary		login by phone number
 // @Description	login by phone number
-// @Tags			account
+// @Tags			accounts
 // @Accept			json
 // @Produce		json
 // @Param			create	form		body					accountqueries.LoginByPhoneRequestDTO	true	"account creation data"
 // @Success		200		{object}	map[string]interface{}	"data"
 // @Failure		400		{object}	error					"Bad request error"
-// @Router			/api/v1/accounts/login [post]
+// @Router			/api/v1/accounts/user-login [post]
 func (s *accountHttpService) handleLoginByPhone() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		var dto accountqueries.LoginByPhoneRequestDTO

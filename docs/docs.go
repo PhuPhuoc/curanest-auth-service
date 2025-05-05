@@ -15,7 +15,46 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/api/v1/accounts/login": {
+        "/api/v1/accounts/admin-login": {
+            "post": {
+                "description": "login by email for admin",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "accounts"
+                ],
+                "summary": "login by email for admin",
+                "parameters": [
+                    {
+                        "description": "account creation data",
+                        "name": "form",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/accountqueries.LoginByEmailRequestDTO"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "data",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request error",
+                        "schema": {}
+                    }
+                }
+            }
+        },
+        "/api/v1/accounts/user-login": {
             "post": {
                 "description": "login by phone number",
                 "consumes": [
@@ -25,7 +64,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "account"
+                    "accounts"
                 ],
                 "summary": "login by phone number",
                 "parameters": [
@@ -528,6 +567,17 @@ const docTemplate = `{
                 }
             }
         },
+        "accountqueries.LoginByEmailRequestDTO": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                }
+            }
+        },
         "accountqueries.LoginByPhoneRequestDTO": {
             "type": "object",
             "properties": {
@@ -535,6 +585,9 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "phone-number": {
+                    "type": "string"
+                },
+                "push-token": {
                     "type": "string"
                 }
             }

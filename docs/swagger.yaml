@@ -48,11 +48,20 @@ definitions:
       paging:
         $ref: '#/definitions/common.Paging'
     type: object
+  accountqueries.LoginByEmailRequestDTO:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+    type: object
   accountqueries.LoginByPhoneRequestDTO:
     properties:
       password:
         type: string
       phone-number:
+        type: string
+      push-token:
         type: string
     type: object
   common.Paging:
@@ -75,7 +84,33 @@ info:
   title: Authentication Service
   version: "1.0"
 paths:
-  /api/v1/accounts/login:
+  /api/v1/accounts/admin-login:
+    post:
+      consumes:
+      - application/json
+      description: login by email for admin
+      parameters:
+      - description: account creation data
+        in: body
+        name: form
+        required: true
+        schema:
+          $ref: '#/definitions/accountqueries.LoginByEmailRequestDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: data
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad request error
+          schema: {}
+      summary: login by email for admin
+      tags:
+      - accounts
+  /api/v1/accounts/user-login:
     post:
       consumes:
       - application/json
@@ -100,7 +135,7 @@ paths:
           schema: {}
       summary: login by phone number
       tags:
-      - account
+      - accounts
   /api/v1/roles:
     get:
       consumes:

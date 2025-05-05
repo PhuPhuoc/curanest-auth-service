@@ -3,6 +3,7 @@ package accountqueries
 import (
 	"context"
 	"errors"
+	"log"
 
 	"github.com/PhuPhuoc/curanest-auth-service/common"
 )
@@ -11,13 +12,15 @@ type loginByPhonePasswordHandler struct {
 	queryRepo     AccountQueryRepo
 	tokenProvider TokenProvider
 	roleFetcher   RoleFetcher
+	notiRepc      ExternalNotiService
 }
 
-func NewLoginWithPhoneHandler(queryRepo AccountQueryRepo, tokenProvider TokenProvider, roleFetcher RoleFetcher) *loginByPhonePasswordHandler {
+func NewLoginWithPhoneHandler(queryRepo AccountQueryRepo, tokenProvider TokenProvider, roleFetcher RoleFetcher, notiRepc ExternalNotiService) *loginByPhonePasswordHandler {
 	return &loginByPhonePasswordHandler{
 		queryRepo:     queryRepo,
 		tokenProvider: tokenProvider,
 		roleFetcher:   roleFetcher,
+		notiRepc:      notiRepc,
 	}
 }
 
@@ -65,6 +68,13 @@ func (h *loginByPhonePasswordHandler) Handle(ctx context.Context, req *LoginByPh
 			AccessTokenExpIn: h.tokenProvider.TokenExpireInSeconds(),
 		},
 	}
+
+	resNoti := RegisPushToken{
+		AccountId: entityFound.GetID(),
+		PushToken: req.PushToken,
+	}
+	err_noti := h.notiRepc.RegisterPushTokenRPC(ctx, &resNoti)
+	log.Println("error from noti: ", err_noti)
 
 	return response, nil
 }

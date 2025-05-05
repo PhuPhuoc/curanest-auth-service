@@ -18,6 +18,7 @@ func NewAccountHTTPService(query accountqueries.Queries) *accountHttpService {
 func (s *accountHttpService) Routes(g *gin.RouterGroup) {
 	acc_route := g.Group("/accounts")
 	{
-		acc_route.POST("/login", s.handleLoginByPhone())
+		acc_route.POST("/user-login", s.handleLoginByPhone())
+		acc_route.POST("/admin-login", s.handleLoginByEmailForAdmin())
 	}
 }

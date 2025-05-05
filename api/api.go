@@ -38,6 +38,9 @@ func InitServer(port string, db *sqlx.DB) *server {
 const (
 	env_local = "local"
 	env_vps   = "vps"
+
+	url_noti_local = "http://localhost:8005"
+	url_noti_prod  = "http://notification_service:8080"
 )
 
 // @Summary		ping server
@@ -49,13 +52,16 @@ const (
 // @Failure		400	{object}	error			"Bad request error"
 // @Router			/ping [get]
 func (sv *server) RunApp() error {
+	var urlNotiServices string
 	envDevlopment := config.AppConfig.EnvDev
 	if envDevlopment == env_local {
+		urlNotiServices = url_noti_local
 		// gin.SetMode(gin.ReleaseMode)
 		docs.SwaggerInfo.BasePath = "/"
 	}
 
 	if envDevlopment == env_vps {
+		urlNotiServices = url_noti_prod
 		gin.SetMode(gin.ReleaseMode)
 		docs.SwaggerInfo.BasePath = "/auth"
 	}
@@ -77,8 +83,14 @@ func (sv *server) RunApp() error {
 
 	tokenProvider := common.NewJWTx(config.AppConfig.Key, 65*60*24*7)
 	role_query_builder := rolequeries.NewRoleQueryWithBuilder(builder.NewRoleBuilder(sv.db))
-	acc_query_builder := accountqueries.NewAccountQueryWithBuilder(builder.NewAccountBuilder(sv.db).AddTokenProvider(tokenProvider))
-	acc_cmd_builder := accountcommands.NewAccountCmdWithBuilder(builder.NewAccountBuilder(sv.db))
+
+	acc_query_builder := accountqueries.NewAccountQueryWithBuilder(
+		builder.NewAccountBuilder(sv.db).AddTokenProvider(tokenProvider).AddUrlPathNotiService(urlNotiServices),
+	)
+
+	acc_cmd_builder := accountcommands.NewAccountCmdWithBuilder(
+		builder.NewAccountBuilder(sv.db).AddUrlPathNotiService(urlNotiServices),
+	)
 
 	api := router.Group("/api/v1")
 	{

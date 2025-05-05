@@ -11,6 +11,12 @@ import (
 type LoginByPhoneRequestDTO struct {
 	PhoneNumber string `json:"phone-number"`
 	Password    string `json:"password"`
+	PushToken   string `json:"push-token"`
+}
+
+type LoginByEmailRequestDTO struct {
+	Email    string `json:"email"`
+	Password string `json:"password"`
 }
 
 type LoginResponseDTO struct {
@@ -91,4 +97,9 @@ func toDTO(data *accountdomain.Account) AccountDTO {
 		CreatedAt:   data.GetCreatedAt(),
 	}
 	return dto
+}
+
+type RegisPushToken struct {
+	AccountId uuid.UUID `json:"account-id"`
+	PushToken string    `json:"push-token"`
 }
