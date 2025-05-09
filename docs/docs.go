@@ -93,6 +93,57 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/v1/accounts/{account-id}/status": {
+            "patch": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "login by email for admin",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "accounts"
+                ],
+                "summary": "login by email for admin",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Account ID (UUID)",
+                        "name": "account-id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "account update data",
+                        "name": "form",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/accountcommands.UpdateAccountStatusDTO"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "data",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request error",
+                        "schema": {}
+                    }
+                }
+            }
+        },
         "/api/v1/roles": {
             "get": {
                 "description": "get roles",
@@ -521,6 +572,14 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "phone-number": {
+                    "type": "string"
+                }
+            }
+        },
+        "accountcommands.UpdateAccountStatusDTO": {
+            "type": "object",
+            "properties": {
+                "new-status": {
                     "type": "string"
                 }
             }

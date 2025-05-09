@@ -21,6 +21,11 @@ definitions:
       phone-number:
         type: string
     type: object
+  accountcommands.UpdateAccountStatusDTO:
+    properties:
+      new-status:
+        type: string
+    type: object
   accountqueries.AccountIdsQuery:
     properties:
       ids:
@@ -84,6 +89,39 @@ info:
   title: Authentication Service
   version: "1.0"
 paths:
+  /api/v1/accounts/{account-id}/status:
+    patch:
+      consumes:
+      - application/json
+      description: login by email for admin
+      parameters:
+      - description: Account ID (UUID)
+        in: path
+        name: account-id
+        required: true
+        type: string
+      - description: account update data
+        in: body
+        name: form
+        required: true
+        schema:
+          $ref: '#/definitions/accountcommands.UpdateAccountStatusDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: data
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad request error
+          schema: {}
+      security:
+      - ApiKeyAuth: []
+      summary: login by email for admin
+      tags:
+      - accounts
   /api/v1/accounts/admin-login:
     post:
       consumes:

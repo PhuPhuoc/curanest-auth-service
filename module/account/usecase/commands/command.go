@@ -9,10 +9,11 @@ import (
 )
 
 type Commands struct {
-	CreateAccount     *createAccountHandler
-	UpdateAccount     *updateAccountHandler
-	UpdateAccountRole *updateAccountRoleHandler
-	HardDeleteAccount *hardDeleteAccountHandler
+	CreateAccount       *createAccountHandler
+	UpdateAccount       *updateAccountHandler
+	UpdateAccountStatus *updateAccountStatusHandler
+	UpdateAccountRole   *updateAccountRoleHandler
+	HardDeleteAccount   *hardDeleteAccountHandler
 }
 
 type Builder interface {
@@ -29,6 +30,9 @@ func NewAccountCmdWithBuilder(b Builder) Commands {
 		UpdateAccount: NewUpdateAccountHandler(
 			b.BuildAccountCmdRepo(),
 		),
+		UpdateAccountStatus: NewUpdateAccountStatusHandler(
+			b.BuildAccountCmdRepo(),
+		),
 		UpdateAccountRole: NewUpdateAccountRoleHandler(
 			b.BuildAccountCmdRepo(),
 			b.BuildRoleFetcherRepoCmd(),
@@ -43,6 +47,7 @@ type AccountCommandRepo interface {
 	Create(ctx context.Context, entity *accountdomain.Account) error
 	Update(ctx context.Context, entity *accountdomain.Account) error
 	UpdateRoleForNurseAndStaff(ctx context.Context, nurseId *uuid.UUID, roleId *uuid.UUID) error
+	UpdateStatus(ctx context.Context, accId uuid.UUID, status accountdomain.Status) error
 
 	HardDelete(ctx context.Context, accountId *uuid.UUID) error
 }

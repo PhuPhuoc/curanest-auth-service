@@ -95,7 +95,7 @@ func (sv *server) RunApp() error {
 	api := router.Group("/api/v1")
 	{
 		rolehttpservice.NewCategoryHTTPService(role_query_builder).Routes(api)
-		accounthttpservice.NewAccountHTTPService(acc_query_builder).Routes(api)
+		accounthttpservice.NewAccountHTTPService(acc_cmd_builder, acc_query_builder).AddAuth(tokenProvider).Routes(api)
 	}
 
 	rpc := router.Group("/external/rpc")
